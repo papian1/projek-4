@@ -46,7 +46,28 @@ def lihat_catatan():
     print("\n" + "="*60 + "\n")
 
 def total_waktu():
-    pass
+    # Mengecek apakah ada catatan atau tidak
+    if len(catatan) == 0:
+        print("\n⚠ Belum ada catatan belajar. Mulai tambah catatan sekarang!\n")
+        return
+    
+    # Menghitung total durasi dari semua catatan
+    jumlah_total = 0
+    for item in catatan:
+        jumlah_total += item['durasi']
+    
+    # Menampilkan hasil dengan format rapi
+    print("\n" + "="*60)
+    print("⏱ TOTAL WAKTU BELAJAR")
+    print("="*60)
+    print(f"\nJumlah catatan: {len(catatan)}")
+    print(f"Total durasi: {jumlah_total} menit")
+    
+    # Konversi ke jam dan menit untuk lebih mudah dibaca
+    jam = jumlah_total // 60
+    menit = jumlah_total % 60
+    print(f"Setara dengan: {jam} jam {menit} menit")
+    print("\n" + "="*60 + "\n")
 
 def menu():
     print("\n=== Study Log App ===")
