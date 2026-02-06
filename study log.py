@@ -28,7 +28,22 @@ def tambah_catatan():
     print(f"\n✓ Catatan '{topik}' berhasil ditambahkan!\n")
 
 def lihat_catatan():
-    pass
+    # Mengecek apakah ada catatan atau tidak
+    if len(catatan) == 0:
+        print("\n⚠ Belum ada catatan belajar. Mulai tambah catatan sekarang!\n")
+        return
+    
+    # Menampilkan semua catatan dengan format rapi
+    print("\n" + "="*60)
+    print("📚 DAFTAR CATATAN BELAJAR")
+    print("="*60)
+    
+    for i, item in enumerate(catatan, start=1):
+        print(f"\n{i}. Mata Pelajaran: {item['mapel']}")
+        print(f"   Topik: {item['topik']}")
+        print(f"   Durasi: {item['durasi']} menit")
+    
+    print("\n" + "="*60 + "\n")
 
 def total_waktu():
     pass
