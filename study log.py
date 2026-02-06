@@ -174,6 +174,72 @@ def lihat_progress_harian():
     
     print("\n" + "="*60 + "\n")
 
+def ringkasan_mingguan():
+    # Menampilkan ringkasan mingguan data belajar
+    print("\n" + "="*60)
+    print("📅 RINGKASAN MINGGUAN")
+    print("="*60)
+    
+    # Mengecek apakah ada catatan atau tidak
+    if len(catatan) == 0:
+        print("\n⚠ Belum ada catatan belajar. Mulai tambah catatan sekarang!\n")
+        return
+    
+    # Menghitung statistik mingguan
+    total_waktu = 0
+    jumlah_sesi = len(catatan)
+    statistik_mapel = {}
+    
+    for item in catatan:
+        mapel = item['mapel']
+        durasi = item['durasi']
+        total_waktu += durasi
+        
+        # Menghitung jumlah sesi per mapel
+        if mapel in statistik_mapel:
+            statistik_mapel[mapel] += 1
+        else:
+            statistik_mapel[mapel] = 1
+    
+    # Menghitung rata-rata durasi per sesi
+    rata_rata_sesi = total_waktu // jumlah_sesi
+    
+    # Konversi total waktu ke jam dan menit
+    jam_total = total_waktu // 60
+    menit_total = total_waktu % 60
+    
+    # Menampilkan statistik mingguan
+    print(f"\n📊 STATISTIK MINGGUAN")
+    print(f"   Total Waktu Belajar: {total_waktu} menit ({jam_total}j {menit_total}m)")
+    print(f"   Jumlah Sesi Belajar: {jumlah_sesi} sesi")
+    print(f"   Rata-rata per Sesi: {rata_rata_sesi} menit")
+    
+    # Menampilkan jumlah sesi per mapel
+    print(f"\n📚 SESI BELAJAR PER MAPEL")
+    mapel_terurut = sorted(statistik_mapel.items(), key=lambda x: x[1], reverse=True)
+    for i, (mapel, jumlah) in enumerate(mapel_terurut, start=1):
+        print(f"   {i}. {mapel}: {jumlah} sesi")
+    
+    # Menghitung target mingguan (asumsi target harian x 7 hari)
+    target_mingguan = target_harian["target_menit"] * 7
+    
+    if target_mingguan > 0:
+        persentase = (total_waktu / target_mingguan) * 100
+        print(f"\n🎯 PENCAPAIAN TARGET MINGGUAN")
+        print(f"   Target Mingguan: {target_mingguan} menit")
+        print(f"   Pencapaian: {total_waktu} menit ({persentase:.1f}%)")
+        
+        if persentase >= 100:
+            kelebihan = total_waktu - target_mingguan
+            print(f"   Status: ✓ TERCAPAI (melampaui {kelebihan} menit)")
+        else:
+            sisa = target_mingguan - total_waktu
+            print(f"   Status: Sisa {sisa} menit untuk mencapai target")
+    else:
+        print(f"\n💡 Tip: Set target harian untuk melihat pencapaian target mingguan!")
+    
+    print("\n" + "="*60 + "\n")
+
 def menu():
     print("\n=== Study Log App ===")
     print("1. Tambah catatan belajar")
@@ -182,7 +248,8 @@ def menu():
     print("4. Mata pelajaran favorit")
     print("5. Set target harian")
     print("6. Lihat progress harian")
-    print("7. Keluar")
+    print("7. Ringkasan mingguan")
+    print("8. Keluar")
 
 while True:
     menu()
@@ -201,6 +268,8 @@ while True:
     elif pilihan == "6":
         lihat_progress_harian()
     elif pilihan == "7":
+        ringkasan_mingguan()
+    elif pilihan == "8":
         print("Terima kasih, terus semangat belajar!")
         break
     else:
